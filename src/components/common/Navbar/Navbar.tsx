@@ -80,6 +80,9 @@ export default function Navbar() {
             <Button component={Link} to="/catalog" sx={{ color: "white" }}>
               Catalog
             </Button>
+            <Button component={Link} to="/add" sx={{ color: "white" }}>
+              Add
+            </Button>
           </Box>
           <Search>
             <SearchIconWrapper>

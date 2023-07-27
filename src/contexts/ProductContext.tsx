@@ -1,5 +1,5 @@
 import React, { FC, createContext, useReducer } from "react";
-import { IProduct } from "../models/product";
+import { IProduct, IProductCreate } from "../models/product";
 import { IInitState, IProductContextType, TProductAction } from "./types";
 import axios from "axios";
 import { API } from "../utils/consts";
@@ -43,10 +43,21 @@ const ProductContext: FC<IProductContext> = ({ children }) => {
     }
   }
 
+  async function addProduct(newProduct: IProductCreate) {
+    await axios.post(API, newProduct);
+  }
+
+  async function deleteProduct(id: number) {
+    await axios.delete(`${API}/${id}`);
+    getProducts();
+  }
+
   const value = {
     products: state.products,
     product: state.product,
     getProducts,
+    addProduct,
+    deleteProduct,
   };
 
   return (

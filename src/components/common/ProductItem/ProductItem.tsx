@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { IProduct } from "../../../models/product";
 import { Grid } from "@mui/material";
 
@@ -8,12 +8,16 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { productContext } from "../../../contexts/ProductContext";
+import { IProductContextType } from "../../../contexts/types";
 
 interface IProductItemProps {
   item: IProduct;
 }
 
 const ProductItem: FC<IProductItemProps> = ({ item }) => {
+  const { deleteProduct } = useContext(productContext) as IProductContextType;
+
   return (
     <Grid item xs={8} md={6} lg={4}>
       {item.title}
@@ -31,7 +35,9 @@ const ProductItem: FC<IProductItemProps> = ({ item }) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Delete</Button>
+          <Button onClick={() => deleteProduct(item.id)} size="small">
+            Delete
+          </Button>
           <Button size="small">Edit </Button>
         </CardActions>
       </Card>

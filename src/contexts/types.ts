@@ -1,9 +1,11 @@
-import { IProduct } from "../models/product";
+import { IProduct, IProductCreate } from "../models/product";
 
 export interface IProductContextType {
   products: IProduct[];
   product: IProduct | null;
   getProducts: () => void;
+  addProduct: (newProduct: IProductCreate) => void;
+  deleteProduct: (id: number) => void;
 }
 
 export interface IInitState {
