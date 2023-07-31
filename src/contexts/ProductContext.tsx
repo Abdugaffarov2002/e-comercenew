@@ -3,6 +3,7 @@ import { IProduct, IProductCreate } from "../models/product";
 import { IInitState, IProductContextType, TProductAction } from "./types";
 import axios from "axios";
 import { API } from "../utils/consts";
+import { type } from "os";
 
 export const productContext = createContext<IProductContextType | null>(null);
 
@@ -43,6 +44,15 @@ const ProductContext: FC<IProductContext> = ({ children }) => {
     }
   }
 
+  async function getOneProduct(id: number) {
+    const { data } = await axios.get(`${API}/${id}`);
+
+    dispatch({
+      type: "product",
+      payload: data,
+    });
+  }
+
   async function addProduct(newProduct: IProductCreate) {
     await axios.post(API, newProduct);
   }
@@ -52,12 +62,18 @@ const ProductContext: FC<IProductContext> = ({ children }) => {
     getProducts();
   }
 
+  async function editProduct(newData: IProduct) {
+    await axios.put(`${API}/${newData.id}`, newData);
+  }
+
   const value = {
     products: state.products,
     product: state.product,
     getProducts,
     addProduct,
     deleteProduct,
+    getOneProduct,
+    editProduct,
   };
 
   return (

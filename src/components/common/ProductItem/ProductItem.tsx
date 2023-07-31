@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { productContext } from "../../../contexts/ProductContext";
 import { IProductContextType } from "../../../contexts/types";
+import { Link } from "react-router-dom";
 
 interface IProductItemProps {
   item: IProduct;
@@ -38,7 +39,12 @@ const ProductItem: FC<IProductItemProps> = ({ item }) => {
           <Button onClick={() => deleteProduct(item.id)} size="small">
             Delete
           </Button>
-          <Button size="small">Edit </Button>
+          <Button component={Link} to={`/edit/${item.id}`} size="small">
+            Edit
+          </Button>
+          <Button component={Link} to={`/details/${item.id}`} size="small">
+            Learn More
+          </Button>
         </CardActions>
       </Card>
       ;

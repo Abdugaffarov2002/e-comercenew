@@ -6,6 +6,8 @@ export interface IProductContextType {
   getProducts: () => void;
   addProduct: (newProduct: IProductCreate) => void;
   deleteProduct: (id: number) => void;
+  getOneProduct: (id: number) => void;
+  editProduct: (newData: IProduct) => void;
 }
 
 export interface IInitState {
