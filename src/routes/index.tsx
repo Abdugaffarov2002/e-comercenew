@@ -7,6 +7,7 @@ import CatalogPage from "../pages/CatalogPage/CatalogPage";
 import AddProductPage from "../pages/AddProductPage/AddProductPage";
 import DetailsPage from "../pages/DetailsPage/DetailsPage";
 import EditProductPage from "../pages/EditProductPage/EditProductPage";
+import AuthPage from "../pages/AuthPage/AuthPage";
 
 const AppRoutes = () => {
   return (
@@ -18,6 +19,7 @@ const AppRoutes = () => {
         <Route path="/details/:id" element={<DetailsPage />} />
         <Route path="/edit/:id" element={<EditProductPage />} />
       </Route>
+      <Route path="/auth" element={<AuthPage />} />
     </Routes>
   );
 };

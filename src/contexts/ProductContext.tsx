@@ -1,9 +1,9 @@
-import React, { FC, createContext, useReducer } from "react";
+import React, { FC, createContext, useReducer, useState } from "react";
 import { IProduct, IProductCreate } from "../models/product";
 import { IInitState, IProductContextType, TProductAction } from "./types";
 import axios from "axios";
-import { API } from "../utils/consts";
-import { type } from "os";
+import { API, LIMIT } from "../utils/consts";
+import { useSearchParams } from "react-router-dom";
 
 export const productContext = createContext<IProductContextType | null>(null);
 
@@ -14,6 +14,8 @@ interface IProductContext {
 const initState: IInitState = {
   products: [],
   product: null,
+
+  pageTotalCount: 1,
 };
 
 function reducer(state: IInitState, action: TProductAction) {
@@ -23,17 +25,35 @@ function reducer(state: IInitState, action: TProductAction) {
     case "product":
       return { ...state, product: action.payload };
 
+    case "IPageTotalCount":
+      return { ...state, pageTotalCount: action.payload };
+
     default:
       return state;
   }
 }
 
 const ProductContext: FC<IProductContext> = ({ children }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [state, dispatch] = useReducer(reducer, initState);
+
+  const [page, setPage] = useState<number>(
+    +(searchParams.get("_page") as string) || 1
+  );
 
   async function getProducts() {
     try {
-      const { data } = await axios.get<IProduct[]>(API);
+      const { data, headers } = await axios.get<IProduct[]>(
+        `${API}/${window.location.search}`
+      );
+
+      const count = Math.ceil(headers["x-total-count"] / LIMIT);
+
+      dispatch({
+        type: "IPageTotalCount",
+        payload: count,
+      });
 
       dispatch({
         type: "products",
@@ -69,11 +89,14 @@ const ProductContext: FC<IProductContext> = ({ children }) => {
   const value = {
     products: state.products,
     product: state.product,
+    page,
+    pageTotalCount: state.pageTotalCount,
     getProducts,
     addProduct,
     deleteProduct,
     getOneProduct,
     editProduct,
+    setPage,
   };
 
   return (

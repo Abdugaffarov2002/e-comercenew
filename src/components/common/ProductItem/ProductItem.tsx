@@ -47,7 +47,6 @@ const ProductItem: FC<IProductItemProps> = ({ item }) => {
           </Button>
         </CardActions>
       </Card>
-      ;
     </Grid>
   );
 };
